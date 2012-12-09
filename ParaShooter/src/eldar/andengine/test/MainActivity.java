@@ -94,7 +94,7 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		// Bullet Tiled Atlas and so on
-		game.mBitmapTextureAtlasBullet = new BitmapTextureAtlas(this.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+		game.mBitmapTextureAtlasBullet = new BitmapTextureAtlas(this.getTextureManager(), 1024, 1024, TextureOptions.DEFAULT);
 
 		game.mBulletTextureRegionTiled = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
 				game.mBitmapTextureAtlasBullet, this, "bullet_tiled.png", 0, 0, 2, 1);
@@ -138,7 +138,14 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 		game.scene.setOnSceneTouchListener(this);
 
 		// Setting up physics
-		game.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
+		
+		try {
+			game.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
+		} catch (Exception e) {
+			Debug.log(DebugLevel.DEBUG, "error in physics world, exeption");
+			e.printStackTrace();
+			
+		}
 
 		// Create a ground
 		final Rectangle ground = new Rectangle(0, game.mCameraHeight - 2, game.mCameraWidth, 2, getVertexBufferObjectManager());
