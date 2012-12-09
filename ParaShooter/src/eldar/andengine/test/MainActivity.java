@@ -152,6 +152,7 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		PhysicsFactory.createBoxBody(this.game.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
 
+		
 		// Create left wall
 		final Rectangle left = new Rectangle(0, 0, 2, game.mCameraHeight, getVertexBufferObjectManager());
 		PhysicsFactory.createBoxBody(this.game.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
