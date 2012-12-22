@@ -31,7 +31,7 @@ public class Game {
 	public Game() {
 
 	}
-
+    
 	// Physics world
 	public final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 	public PhysicsWorld mPhysicsWorld;
@@ -71,7 +71,7 @@ public class Game {
 	public Vector<Para> ParaVector = new Vector<Para>();
 	public Vector<Burst> BurstVector = new Vector<Burst>();
 
-	public final int MAXBURST = 6;
+	public final int MAXBURST = 3;
 
 	
 	

@@ -63,6 +63,8 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 		return engineOptions;
 	}
 
+		
+	
 	@Override
 	protected void onCreateResources() {
 
@@ -278,6 +280,13 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 		return game.scene;
 	}
 
+	private String isLevelUnLocked(int levelNum){
+        Db myDB = new Db(this);
+        String myReturn = myDB.isLevelUnLocked(levelNum);
+        myDB.close();
+        return myReturn;
+    }
+	
 	// Check for player touch
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
@@ -294,8 +303,10 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 			if (game.BurstVector.size() < game.MAXBURST) {
 				createBurst(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				game.soundBurst.play();
+				Debug.log(DebugLevel.DEBUG, "test Db1: " + isLevelUnLocked(1));
+				Debug.log(DebugLevel.DEBUG, "test Db2: " + isLevelUnLocked(3));
 				
-				createBullet(1);
+				//createBullet(1);
 			}
 		}
 
@@ -312,7 +323,7 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 
 	private void updateScore() {
 		game.scoreText = new Text(game.mCameraWidth - 150, 20, game.mFont, "Score: " + game.score, getVertexBufferObjectManager());
-		game.lifeText = new Text(game.mCameraWidth -120, 20, game.mFont, "Life: " + game.life, getVertexBufferObjectManager());
+		game.lifeText = new Text(game.mCameraWidth -270, 20, game.mFont, "Life: " + game.life, getVertexBufferObjectManager());
 		game.hud.detachChildren();
 		game.hud.attachChild(game.scoreText);
 		game.hud.attachChild(game.lifeText);
@@ -324,30 +335,30 @@ public class MainActivity extends SimpleBaseGameActivity implements IOnSceneTouc
 		}
 	}
 
-	private void createBullet(int power) {
-		Bullet b = new Bullet(150, 150, game.mBulletTextureRegionTiled, getVertexBufferObjectManager(),
-				game.mBulletTextureRegionTiled, game.mPhysicsWorld, game.scene, game.engineLock);
-
-		final Body body;
-		body = PhysicsFactory.createCircleBody(game.mPhysicsWorld, b, BodyType.DynamicBody, game.FIXTURE_DEF);
-
-		b.setbody(body);
-		//b.animate(200);		
-
-		// multiply with power
-		b.shoot = b.shoot.mul(power);
-		
-		body.setLinearVelocity(b.shoot);
-		body.setBullet(true);
-
-		game.scene.attachChild(b);
-		game.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(b, body, true, true));
-
-		game.scene.registerUpdateHandler(b);
-
-		game.BulletVector.add(b);
-		
-	}
+//	private void createBullet(int power) {
+//		Bullet b = new Bullet(150, 150, game.mBulletTextureRegionTiled, getVertexBufferObjectManager(),
+//				game.mBulletTextureRegionTiled, game.mPhysicsWorld, game.scene, game.engineLock);
+//
+//		final Body body;
+//		body = PhysicsFactory.createCircleBody(game.mPhysicsWorld, b, BodyType.DynamicBody, game.FIXTURE_DEF);
+//
+//		b.setbody(body);
+//		//b.animate(200);		
+//
+//		// multiply with power
+//		b.shoot = b.shoot.mul(power);
+//		
+//		body.setLinearVelocity(b.shoot);
+//		body.setBullet(true);
+//
+//		game.scene.attachChild(b);
+//		game.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(b, body, true, true));
+//
+//		game.scene.registerUpdateHandler(b);
+//
+//		game.BulletVector.add(b);
+//		
+//	}
 
 	private void removeBullet(final AnimatedSprite bullet) {
 
